@@ -6,12 +6,13 @@ RUN apt update && apt upgrade -y
 
 RUN apt install -y texlive-full build-essential git make
 
-COPY src/startup.sh /startup.sh
-
 CMD [ "/bin/bash", "/startup.sh" ]
 
+RUN DEBIAN_FRONTEND=noninteractive apt install -y graphicsmagick-imagemagick-compat
 
+COPY src/lit.tex /lit.tex
 
+COPY src/startup.sh /startup.sh
 
 
 

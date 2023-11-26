@@ -68,6 +68,70 @@ if [[ $1 = mks ]]; then
     exit 0
 fi
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+if [[ $1 = bookworm ]]; then
+    
+    if [[ ! -f DTAG ]]; then
+        echo $OSD_ENV_DTAG >DTAG
+    fi
+
+    mk_docker_scripts "\`cat DTAG\`"
+    mkdir src
+
+    cat >src/startup.sh <<EOF
+#!/bin/bash
+
+
+echo "startup.sh not customized yet!"
+read
+#cd /app && python -u -m YOUR_MODULE
+EOF
+
+    chmod a+x src/startup.sh
+
+
+    cat >Dockerfile <<"EOF"
+FROM debian:bookworm-slim
+
+RUN apt update && apt upgrade -y
+
+RUN apt install -y mc less netcat-openbsd emacs-nox
+
+WORKDIR /work
+
+COPY src/startup.sh /startup.sh
+
+CMD [ "/bin/bash", "/startup.sh" ]
+
+EOF
+
+
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
 if [[ $1 = deb ]]; then
     
     if [[ ! -f DTAG ]]; then
@@ -109,6 +173,24 @@ EOF
 
 
 fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
