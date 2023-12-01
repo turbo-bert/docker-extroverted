@@ -6,18 +6,10 @@ RUN apt update && apt upgrade -y
 
 RUN apt install -y texlive-full build-essential git make
 
-CMD [ "/bin/bash", "/startup.sh" ]
-
 RUN DEBIAN_FRONTEND=noninteractive apt install -y graphicsmagick-imagemagick-compat
+
+CMD [ "/bin/bash", "/startup.sh" ]
 
 COPY src/lit.tex /lit.tex
 
 COPY src/startup.sh /startup.sh
-
-
-
-
-
-#RUN apt install -y mc less netcat-openbsd emacs-nox python3 python3-pip
-#RUN pip3 install rich requests
-#COPY src/$DOCKER_APP_NAME/. /app/$DOCKER_APP_NAME
