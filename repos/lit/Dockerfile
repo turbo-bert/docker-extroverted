@@ -1,12 +1,14 @@
 FROM debian:bookworm-slim
 
-WORKDIR /work
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt upgrade -y
 
-RUN apt install -y texlive-full build-essential git make
+RUN apt install -y texlive-base build-essential git make
 
-RUN DEBIAN_FRONTEND=noninteractive apt install -y graphicsmagick-imagemagick-compat
+RUN apt install -y graphicsmagick-imagemagick-compat
+
+WORKDIR /work
 
 CMD [ "/bin/bash", "/startup.sh" ]
 

@@ -1,13 +1,11 @@
 #!/bin/bash
 
 
+set -x
 
 H=he
-FIP4="89.204.137.78"
+FIP4="$(bobip)"
 FIP6="2a02:3031:208:dbe5::/64"
-
-
-set -x
 
 
 while true; do
