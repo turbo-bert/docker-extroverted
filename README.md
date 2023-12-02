@@ -39,3 +39,7 @@ __Note__: Always run the `install_starters.sh` from its own origin directory of 
 ## Run the Installer
 
     ( cd docker-extroverted/repos && bash install_starters.sh )
+
+# Platforms
+
+The containers of course..., yes you know but the bash scripts I only tested on MacOS with homebrew and native Debian Linux 12.
