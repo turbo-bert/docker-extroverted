@@ -8,5 +8,6 @@ read
 
 set -x
 for A in costa lit mutter poc; do
-    cp -f $A/$A $TARGETDIR/$A
+    cp -f $A/$A $TARGETDIR/$A # short
+    cp -f $A/$A $TARGETDIR/turbobert-$A # with turbobert-prefix
 done
