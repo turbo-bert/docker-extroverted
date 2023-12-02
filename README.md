@@ -8,7 +8,8 @@ Do not expect anything to be perfect here - at all.
 
 | Name of container | Purpose                                                          |
 | ----------------- | ---------------------------------------------------------------- |
-| osd               | one-shot-docker |
+| `osd`               | one-shot-docker |
+| `ds`               | a quick `dialog` based terminal to conatiner shells |
 
 # Installation
 
