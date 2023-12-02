@@ -19,3 +19,4 @@ done
 
 
 cp -f ../utils/ds/ds $TARGETDIR/ds
+cp -f ../utils/osd/osd $TARGETDIR/osd
