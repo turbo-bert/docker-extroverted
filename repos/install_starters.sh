@@ -16,3 +16,6 @@ for A in costa lit mutter poc qrl; do
     cp -f $A/$A $TARGETDIR/$A # short
     cp -f $A/$A $TARGETDIR/turbobert-$A # with turbobert-prefix
 done
+
+
+cp -f ../utils/ds/ds $TARGETDIR/ds
