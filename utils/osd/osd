@@ -14,8 +14,29 @@ fi
 
 if [[ -z $1 ]]; then
     cat <<"EOF"
+===============================================================================
+osd WRITTEN BY ROBERT DEGEN (C) 2023 ALL RIGHTS RESERVED. THIS IS FREE SOFTWARE
+===============================================================================
 
-osd.sh <PROFILE> [ <DIR> ]
+For creation of docker containers, make sure you have already something like...
+  echo OSD_ENV_DTAG="u/a" >~/.osd_env
+to make the wrappers work correctly!
+
+Available commands:
+
+BUILDING
+
+    osd multi ........... Create docker toolchain/builder for xbuild in order
+                          to build multi arch containers
+
+    osd bookworm ........ Create a debian 12 based Dockerfile in CWD with some
+                          helpers and predefined standard values
+
+SERVING
+
+    osd mysql ........... Create a mysql-8 server on port 33060 with login
+                          root:foo123 in CWD
+
 
 EOF
     exit 1
