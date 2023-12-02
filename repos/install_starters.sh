@@ -3,6 +3,10 @@
 
 TARGETDIR=${1:-~/bin}
 
+if [[ ! -d $TARGETDIR ]]; then
+    TARGETDIR="/usr/local/bin"
+fi
+
 echo -en "If you want to install wrappers in $TARGETDIR, press ENTER to continue or CTRL-C to abort"
 read
 
