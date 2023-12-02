@@ -6,7 +6,15 @@ Do not expect anything to be perfect here - at all.
 
 # Overview
 
+## Containers
+
 | Name of container | Purpose                                                          |
+| ----------------- | ---------------------------------------------------------------- |
+| `costa`           | a quick `composer` wrapper for downloading `php` libraries |
+
+## Helper Bash Scripts
+
+| Name of script | Purpose                                                          |
 | ----------------- | ---------------------------------------------------------------- |
 | `osd`               | one-shot-docker |
 | `ds`               | a quick `dialog` based terminal to conatiner shells |
