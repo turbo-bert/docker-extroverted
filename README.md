@@ -11,6 +11,9 @@ Do not expect anything to be perfect here - at all.
 | Name of container | Purpose                                                          |
 | ----------------- | ---------------------------------------------------------------- |
 | `costa`           | a quick `composer` wrapper for downloading `php` libraries |
+| `lit`             | a quick `pdflatex` wrapper and frame for easy latex document building |
+| `poc`             | just a kind of `hellow world` test |
+| `qrl`             | quick text-to-QR-code utility |
 
 ## Helper Bash Scripts
 
