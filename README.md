@@ -19,7 +19,8 @@ Do not expect anything to be perfect here - at all.
 
 | Name of script | Purpose                                                          |
 | ----------------- | ---------------------------------------------------------------- |
-| `osd`               | one-shot-docker |
+| `osd`               | one-shot-docker - cli for messing with container build steps |
+| `osc`               | one-shot-code - cli for mocking up software |
 | `ds`               | a quick `dialog` based terminal to conatiner shells |
 
 # Installation
