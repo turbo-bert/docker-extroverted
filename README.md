@@ -16,4 +16,4 @@ Do not expect anything to be perfect here - at all.
 
 ## Run the Installer
 
-    ( cd bla && bash )
+    ( cd docker-extroverted/repos && bash install_starters.sh )
