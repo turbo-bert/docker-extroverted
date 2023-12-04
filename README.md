@@ -11,6 +11,7 @@ Do not expect anything to be perfect here - at all.
 | Name of container | Purpose                                                          |
 | ----------------- | ---------------------------------------------------------------- |
 | `turbobert/costa`           | a quick `composer` wrapper for downloading `php` libraries |
+| `turbobert/costa74`           | a quick `composer` wrapper for downloading `php` libraries, specific php version 7.4 |
 | `turbobert/lit`             | a quick `pdflatex` wrapper and frame for easy latex document building |
 | `turbobert/poc`             | just a kind of `hellow world` test |
 | `turbobert/qrl`             | quick text-to-QR-code utility |
