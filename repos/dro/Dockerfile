@@ -39,5 +39,3 @@ RUN dbus-uuidgen >/var/lib/dbus/machine-id
 RUN apt install -y xdg-desktop-portal xdg-utils xdg-desktop-portal-gtk fluxbox xdg-dbus-proxy
 
 COPY src/startup.sh /startup.sh
-
-RUN adduser --gecos ,,, --disabled-password worker

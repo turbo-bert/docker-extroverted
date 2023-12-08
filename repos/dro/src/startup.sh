@@ -15,16 +15,18 @@ if [[ -z $F ]]; then
 fi
 
 
-EXTS="pdf png"
+EXTS="pdf png svg"
 
 for E in $EXTS; do
-    mkdir full
-    xvfb-run --server-args="-nolisten tcp -fbdir /var/run" /bin/bash -c "DRAWIO_DISABLE_UPDATE=true drawio $F --disable-gpu --headless -x -f $E -o full --no-sandbox"
-    sleep 1
+    echo "full $E"
+    mkdir full 1>/dev/null 2>/dev/null
+    xvfb-run --server-args="-nolisten tcp -fbdir /var/run" /bin/bash -c "DRAWIO_DISABLE_UPDATE=true drawio $F --disable-gpu --headless -x -f $E -o full --no-sandbox" 1>/dev/null 2>/dev/null
+    sleep 1 1>/dev/null 2>/dev/null
 done
 
 for E in $EXTS; do
-    mkdir cropped
-    xvfb-run --server-args="-nolisten tcp -fbdir /var/run" /bin/bash -c "DRAWIO_DISABLE_UPDATE=true drawio $F --disable-gpu --crop --headless -x -f $E -o cropped --no-sandbox"
-    sleep 1
+    echo "cropped $E"
+    mkdir cropped 1>/dev/null 2>/dev/null
+    xvfb-run --server-args="-nolisten tcp -fbdir /var/run" /bin/bash -c "DRAWIO_DISABLE_UPDATE=true drawio $F --disable-gpu --crop --headless -x -f $E -o cropped --no-sandbox" 1>/dev/null 2>/dev/null
+    sleep 1 1>/dev/null 2>/dev/null
 done
