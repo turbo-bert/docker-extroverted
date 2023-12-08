@@ -29,7 +29,7 @@ BUILDING
     osd multi ........... Create docker toolchain/builder for xbuild in order
                           to build multi arch containers
 
-    osd bookworm ........ Create a debian 12 based Dockerfile in CWD with some
+    osd slim ............ Create a debian 12 based Dockerfile in CWD with some
                           helpers and predefined standard values
 
 SERVING
@@ -102,7 +102,7 @@ fi
 
 
 
-if [[ $1 = bookworm ]]; then
+if [[ $1 = slim ]]; then
     
     if [[ ! -f DTAG ]]; then
         echo $OSD_ENV_DTAG >DTAG
@@ -126,11 +126,23 @@ EOF
     cat >Dockerfile <<"EOF"
 FROM debian:bookworm-slim
 
+WORKDIR /work
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+ARG TARGETPLATFORM
+
+ARG BUILDPLATFORM
+
 RUN apt update && apt upgrade -y
 
 RUN apt install -y mc less netcat-openbsd emacs-nox
 
-WORKDIR /work
+RUN echo "$TARGETPLATFORM" >/platform
+
+#RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then echo arm | tee -a ../ap; fi
+
+#RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then echo x86 | tee -a ../ap; fi
 
 COPY src/startup.sh /startup.sh
 
