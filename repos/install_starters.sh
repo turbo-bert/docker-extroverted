@@ -21,3 +21,4 @@ done
 cp -f ../utils/ds/ds $TARGETDIR/ds
 cp -f ../utils/osd/osd $TARGETDIR/osd
 cp -f ../utils/osc/osc $TARGETDIR/osc
+cp -f ../utils/defi/defi $TARGETDIR/defi

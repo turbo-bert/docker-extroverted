@@ -1,0 +1,30 @@
+#!/bin/bash
+
+
+N=$1
+O=/tmp/defi-out
+
+curl -L -o $O "https://packages.debian.org/search?searchon=contents&keywords=$N&mode=exactfilename&suite=stable&arch=any"
+
+
+cat $O | grep -E '\/bookworm\/|td class="file' >${O}.1
+cat ${O}.1 | gsed -E 's|<td class="file">||g' | gsed -E 's|<span class="keyword">||g' | gsed -E 's|</span></td>||g' | gsed -E 's|\[[^\]*\]||g'  | gsed -E 's|<a href[^>]*>(.*)</a>|:\1|g' | awk '{print $1}' | gsed -E -z 's|\n:|:|g' >${O}.2
+
+
+W1=50
+cat ${O}.2 | cut -d ':' -f 1 >${O}.n
+cat /dev/null >${O}.n_
+for X in `cat ${O}.n`; do
+    printf "%-${W1}s\n" $X >>${O}.n_
+done
+
+W2=20
+cat ${O}.2 | cut -d ':' -f 2 >${O}.p
+cat /dev/null >${O}.p_
+for X in `cat ${O}.p`; do
+    printf "%-${W2}s\n" $X >>${O}.p_
+done
+
+paste ${O}.n_ ${O}.p_ >${O}.txt
+
+less -S ${O}.txt
