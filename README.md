@@ -15,6 +15,7 @@ Do not expect anything to be perfect here - at all.
 | `turbobert/lit`             | a quick `pdflatex` wrapper and frame for easy latex document building |
 | `turbobert/poc`             | just a kind of `hellow world` test |
 | `turbobert/qrl`             | quick text-to-QR-code utility |
+| `turbobert/dro`             | `drawio out` renders png/pdf/svg from single `*.drawio` file in `CWD` |
 
 ## Helper Bash Scripts
 
@@ -23,6 +24,7 @@ Do not expect anything to be perfect here - at all.
 | `osd`               | one-shot-docker - cli for messing with container build steps |
 | `osc`               | one-shot-code - cli for mocking up software |
 | `ds`               | a quick `dialog` based terminal to conatiner shells |
+| `defi`               | `debian file` check debian file index |
 
 # Installation
 
