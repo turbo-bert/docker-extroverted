@@ -12,7 +12,7 @@ ARG BUILDPLATFORM
 
 RUN apt update && apt upgrade -y
 
-RUN apt install -y mc less netcat-openbsd emacs-nox openscad dialog python3 python3-pip python3-venv dialog build-essential
+RUN apt install -y mc less netcat-openbsd emacs-nox openscad dialog python3 python3-pip ffmpeg python3-venv dialog build-essential
 
 RUN echo "$TARGETPLATFORM" >/platform
 
@@ -23,6 +23,8 @@ RUN . /venv/bin/activate && pip install rich requests pandas openpyxl pythondial
 #RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then echo arm | tee -a ../ap; fi
 
 #RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then echo x86 | tee -a ../ap; fi
+
+COPY src/lib /parts2lib/parts
 
 COPY src/parts2 /venv/lib/python3.11/site-packages/parts2
 

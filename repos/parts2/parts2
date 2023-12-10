@@ -1,4 +1,11 @@
 #!/bin/bash
 
 
-docker run --rm -v $PWD:/work -it turbobert/parts2 "$@"
+if [[ -z $1 ]]; then
+    echo ""
+    echo     "Run parts2 on $PWD ?"
+    echo -en "Press ENTER to continue, CTRL-C to abort..."
+    read
+fi
+
+docker run --rm -v $PWD:/work -it turbobert/parts2
