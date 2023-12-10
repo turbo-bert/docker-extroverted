@@ -16,6 +16,7 @@ Do not expect anything to be perfect here - at all.
 | `turbobert/lit`             | a quick `pdflatex` wrapper and frame for easy latex document building |
 | `turbobert/parts2`             | `openscad` stl compiler and library wrapper |
 | `turbobert/poc`             | just a kind of `hellow world` test |
+| `turbobert/puml`             | `plantuml` wrapper |
 | `turbobert/qrl`             | quick text-to-QR-code utility |
 
 ## Helper Bash Scripts
