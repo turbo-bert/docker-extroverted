@@ -63,6 +63,7 @@ mk_docker_scripts() {
     echo -en "#!/bin/bash\n\n\ndocker build -t $funky_tag .\n"                  >$funky_dir/DOCKER_BUILD.sh
     echo -en "#!/bin/bash\n\n\ndocker build --no-cache -t $funky_tag .\n"       >$funky_dir/DOCKER_BUILD_NOCACHE.sh
     echo -en "#!/bin/bash\n\n\ndocker run --rm -v \$PWD:/work -it $funky_tag\n" >$funky_dir/DOCKER_RUN.sh
+    echo -en "#!/bin/bash\n\n\ndocker run --rm -v \$PWD:/work -it $funky_tag /bin/bash\n" >$funky_dir/DOCKER_RUN_BASH.sh
     echo -en "#!/bin/bash\n\n\ndocker push $funky_tag\n"                        >$funky_dir/DOCKER_PUSH.sh
 
     echo -en "#!/bin/bash\n\n\ndocker buildx build --platform linux/arm64,linux/amd64 -t $funky_tag .\n"             >$funky_dir/X_DOCKER_BUILD_ALL.sh
@@ -104,6 +105,11 @@ fi
 
 if [[ $1 = slim ]]; then
     
+    if [[ ! -z $2 ]]; then
+        echo -en `echo $OSD_ENV_DTAG | cut -d '/' -f 1 | tr -d '\n'` >DTAG
+        echo "/$2" >>DTAG
+    fi
+
     if [[ ! -f DTAG ]]; then
         echo $OSD_ENV_DTAG >DTAG
     fi
@@ -138,11 +144,19 @@ RUN apt update && apt upgrade -y
 
 RUN apt install -y mc less netcat-openbsd emacs-nox
 
+#RUN apt install -y dialog python3 python3-pip python3-venv build-essential
+
 RUN echo "$TARGETPLATFORM" >/platform
 
 #RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then echo arm | tee -a ../ap; fi
 
 #RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then echo x86 | tee -a ../ap; fi
+
+#RUN cd / && python3 -m venv venv
+
+#RUN . /venv/bin/activate && pip install rich requests pandas openpyxl pythondialog reportlab
+
+#COPY src/PYMOD /venv/lib/python3.11/site-packages/PYMOD
 
 COPY src/startup.sh /startup.sh
 
@@ -150,6 +164,12 @@ CMD [ "/bin/bash", "/startup.sh" ]
 
 EOF
 
+
+    WRAPPERNAME=${2:-generic_wrapper}
+    # tag actual
+    TA=$(cat DTAG)
+    cat DOCKER_RUN.sh | gsed "s|\`cat DTAG\`|$TA \"\$\@\"|g" >$WRAPPERNAME
+    chmod a+x $WRAPPERNAME
 
 fi
 
