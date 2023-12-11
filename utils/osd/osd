@@ -7,7 +7,10 @@
 uname | grep -i darwin >/dev/null 2>/dev/null
 mactest=$?
 OPTS="--add-host=host.docker.internal:host-gateway"
+
+SEDCOMMAND=sed
 if [[ $mactest = 0 ]]; then
+    SEDCOMMAND=gsed
     OPTS=""
 fi
 
@@ -121,6 +124,11 @@ if [[ $1 = slim ]]; then
 #!/bin/bash
 
 
+#. /venv/bin/activate
+
+#python -m PYMOD -u
+#python -m PYMOD
+
 echo "startup.sh not customized yet!"
 read
 #cd /app && python -u -m YOUR_MODULE
@@ -168,8 +176,10 @@ EOF
     WRAPPERNAME=${2:-generic_wrapper}
     # tag actual
     TA=$(cat DTAG)
-    cat DOCKER_RUN.sh | gsed "s|\`cat DTAG\`|$TA \"\$\@\"|g" >$WRAPPERNAME
+    cat DOCKER_RUN.sh | $SEDCOMMAND "s|\`cat DTAG\`|$TA \"\$\@\"|g" >$WRAPPERNAME
     chmod a+x $WRAPPERNAME
+
+    exit 0
 
 fi
 
