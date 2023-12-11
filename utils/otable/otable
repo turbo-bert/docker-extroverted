@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+SED=gsed
+
+for T in $(ls *.org); do
+    TO=${T%%.org}.csv
+    echo "Converting $T to $TO"
+    cat $T \
+        | grep "^| " \
+        | $SED -E 's/^\|//g' \
+        | $SED -E 's/\|$//g' \
+        | $SED -E 's/\|/,/g' \
+        | $SED -E 's/^ *//g' \
+        | $SED -E 's/ *$//g' \
+        | $SED -E 's/  */ /g' \
+        | $SED -E 's/ , /,/g' \
+        >$TO
+done
