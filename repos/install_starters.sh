@@ -18,9 +18,10 @@ for A in costa costa74 lit mutter poc qrl dro parts2 puml dcx bk; do
 done
 
 
-cp -f ../utils/ds/ds $TARGETDIR/ds
-cp -f ../utils/osd/osd $TARGETDIR/osd
-cp -f ../utils/osd/osdd $TARGETDIR/osdd
-cp -f ../utils/osc/osc $TARGETDIR/osc
-cp -f ../utils/defi/defi $TARGETDIR/defi
-cp -f ../utils/otable/otable $TARGETDIR/otable
+cp -f ../utils/ds/ds          $TARGETDIR/ds
+cp -f ../utils/osd/osd        $TARGETDIR/osd
+cp -f ../utils/osd/osdd       $TARGETDIR/osdd
+cp -f ../utils/osc/osc        $TARGETDIR/osc
+cp -f ../utils/defi/defi      $TARGETDIR/defi
+cp -f ../utils/otable/otable  $TARGETDIR/otable
+cp -f ../utils/pypi/ppprepper $TARGETDIR/ppprepper
