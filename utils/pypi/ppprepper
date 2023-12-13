@@ -1,13 +1,10 @@
 #!/bin/bash
 
 
+#keywords: pypi .pypirc twine setuptools
 
 
-#python3 -m pip install --upgrade build
-#vp -m pip install --upgrade build
-#vp -m build
-
-PKGDEFAULT=c10
+PKGDEFAULT=my_pkg
 
 skeleton_pypi() {
     P=$1
