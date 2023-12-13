@@ -1,0 +1,56 @@
+#!/bin/bash
+
+
+# (O)ne (S)hot (D)ocker Commands
+# 2023 by Robert Degen
+
+uname | grep -i darwin >/dev/null 2>/dev/null
+mactest=$?
+OPTS="--add-host=host.docker.internal:host-gateway"
+
+SEDCOMMAND=sed
+if [[ $mactest = 0 ]]; then
+    SEDCOMMAND=gsed
+    OPTS=""
+fi
+
+
+if [[ $1 = php ]]; then
+
+    cat >Dockerfile <<"EOF"
+FROM php:8.2-cli
+
+WORKDIR /work
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+ARG TARGETPLATFORM
+
+ARG BUILDPLATFORM
+
+RUN apt update && apt upgrade -y
+
+RUN apt install -y mc less netcat-openbsd emacs-nox
+
+#RUN apt install -y dialog python3 python3-pip python3-venv build-essential
+
+RUN echo "$TARGETPLATFORM" >/platform
+
+#RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then echo arm | tee -a ../ap; fi
+
+#RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then echo x86 | tee -a ../ap; fi
+
+#RUN cd / && python3 -m venv venv
+
+#RUN . /venv/bin/activate && pip install rich requests pandas openpyxl pythondialog reportlab
+
+#COPY src/PYMOD /venv/lib/python3.11/site-packages/PYMOD
+
+#COPY src/startup.sh /startup.sh
+
+#CMD [ "/bin/bash", "/startup.sh" ]
+
+EOF
+
+
+fi

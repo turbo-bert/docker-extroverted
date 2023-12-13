@@ -1,0 +1,29 @@
+Robert Degen
+
+
+Table of Contents
+_________________
+
+1. Modes of Execution
+
+
+1 Modes of Execution
+====================
+
+  ----------------------------------------------------------------------------------------
+   Mode Name                      Details                                                 
+  ----------------------------------------------------------------------------------------
+   Monolith Headless Docker       Execution of Selenium Controller in a Docker Container, 
+                                  talking to a Grid Container on the same host, not       
+                                  necessarily via Docker Compose.                         
+  ----------------------------------------------------------------------------------------
+   Native                         Native Browser, Native Python                           
+  ----------------------------------------------------------------------------------------
+   Direct Remote Headless Docker  Execution of Selenium Controller in a Docker Container  
+                                  connecting to a remote host for use of selenium grid    
+                                  instance                                                
+  ----------------------------------------------------------------------------------------
+   SSH Remote Headless Docker     Execution of Selenium Controller in a Docker Container  
+                                  connecting to a remote host via ssh port forwarding     
+                                  for use of selenium grid instance                       
+  ----------------------------------------------------------------------------------------
