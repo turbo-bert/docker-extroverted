@@ -1,6 +1,26 @@
 #!/bin/bash
 
 
+
+
+if [[ -z $1 ]]; then
+    cat <<"EOF"
+
+osdd - Reset 'Dockerfile' for specific purpose:
+
+  osdd php
+
+EOF
+    exit 0
+fi
+
+
+
+
+
+
+
+
 # (O)ne (S)hot (D)ocker Commands
 # 2023 by Robert Degen
 
@@ -50,6 +70,29 @@ RUN echo "$TARGETPLATFORM" >/platform
 
 #CMD [ "/bin/bash", "/startup.sh" ]
 
+EOF
+
+
+fi
+
+if [[ $1 = phpwww ]]; then
+
+    cat >Dockerfile <<"EOF"
+FROM php:8-apache
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+ARG TARGETPLATFORM
+
+ARG BUILDPLATFORM
+
+RUN apt update && apt upgrade -y
+
+RUN apt install -y mc less netcat-openbsd emacs-nox
+
+RUN docker-php-ext-install pdo pdo_mysql
+
+RUN echo "$TARGETPLATFORM" >/platform
 EOF
 
 

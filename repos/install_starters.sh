@@ -11,7 +11,7 @@ echo -en "If you want to install wrappers in $TARGETDIR, press ENTER to continue
 read
 
 set -x
-for A in costa costa74 lit mutter poc qrl dro parts2 puml dcx bk; do
+for A in costa costa74 lit mutter poc qrl dro parts2 puml dcx bk frp; do
     echo "=========================================="
     cp -f $A/$A $TARGETDIR/$A # short
     cp -f $A/$A $TARGETDIR/turbobert-$A # with turbobert-prefix
