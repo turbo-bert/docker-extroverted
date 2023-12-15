@@ -13,6 +13,7 @@ Do not expect anything to be perfect here - at all.
 | `turbobert/costa74`           | a quick `composer` wrapper for downloading `php` libraries, specific php version 7.4 |
 | `turbobert/costa`           | a quick `composer` wrapper for downloading `php` libraries |
 | `turbobert/dro`             | `drawio out` renders png/pdf/svg from single `*.drawio` file in `CWD` |
+| `turbobert/frp`             | quick freepascal (`fpc`) for linux wrapper |
 | `turbobert/lit`             | a quick `pdflatex` wrapper and frame for easy latex document building |
 | `turbobert/parts2`             | `openscad` stl compiler and library wrapper |
 | `turbobert/poc`             | just a kind of `hellow world` test |
@@ -27,6 +28,7 @@ Do not expect anything to be perfect here - at all.
 | `ds`               | a quick `dialog` based terminal to conatiner shells |
 | `osc`               | one-shot-code - cli for mocking up software |
 | `osd`               | one-shot-docker - cli for messing with container build steps |
+| `osdd`               | Reset Dockerfile for some common use cases |
 
 # Installation
 
