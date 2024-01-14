@@ -35,6 +35,10 @@ BUILDING
     osd slim ............ Create a debian 12 based Dockerfile in CWD with some
                           helpers and predefined standard values
 
+    osd wpdev ........... Create a wordpress custom image
+
+
+
 SERVING
 
     osd mysql ........... Create a mysql-8 server on port 33060 with login
@@ -181,8 +185,52 @@ EOF
 
     exit 0
 
-fi
+fi # slim end
 
+
+
+
+if [[ $1 = wpdev ]]; then
+    
+    if [[ ! -z $2 ]]; then
+        echo -en `echo $OSD_ENV_DTAG | cut -d '/' -f 1 | tr -d '\n'` >DTAG
+        echo "/$2" >>DTAG
+    fi
+
+    if [[ ! -f DTAG ]]; then
+        echo $OSD_ENV_DTAG >DTAG
+    fi
+
+    mk_docker_scripts "\`cat DTAG\`"
+    mkdir src
+
+    cat >src/startup.sh <<EOF
+#!/bin/bash
+
+
+#. /venv/bin/activate
+
+#python -m PYMOD -u
+#python -m PYMOD
+
+echo "startup.sh not customized yet!"
+read
+#cd /app && python -u -m YOUR_MODULE
+EOF
+
+    chmod a+x src/startup.sh
+
+
+    cat >Dockerfile <<"EOF"
+FROM wordpress:apache
+
+EOF
+
+
+
+    exit 0
+
+fi # wpdev end
 
 
 
@@ -364,7 +412,32 @@ if [[ $1 = turbopress ]]; then
     exit 0
 fi
 
+if [[ $1 = turbophpwww ]]; then
+
+##    cat >Dockerfile <<"EOF"
+##FROM php:8-apache
+##
+##ENV DEBIAN_FRONTEND=noninteractive
+##
+##ARG TARGETPLATFORM
+##
+##ARG BUILDPLATFORM
+##
+##RUN apt update && apt upgrade -y
+##
+##RUN apt install -y mc less netcat-openbsd emacs-nox
+##
+##RUN docker-php-ext-install pdo pdo_mysql
+##
+##RUN echo "$TARGETPLATFORM" >/platform
+##EOF
+
+
+    exit 0
+fi
+
 if [[ $1 = cli ]]; then
     cat cli.csv
     exit 0
 fi
+
