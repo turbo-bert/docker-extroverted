@@ -412,6 +412,30 @@ if [[ $1 = turbopress ]]; then
     exit 0
 fi
 
+if [[ $1 = wwwphp ]]; then
+
+    if [[ ! -d $D/www ]]; then
+        mkdir -p $D/www
+    fi
+
+    ( cd $D && docker run --name wwwphp -d -p 80:80 -v `pwd`/www:/var/www/html -it --rm php:8-apache )
+    docker logs -f wwwphp
+
+    exit 0
+fi
+
+if [[ $1 = wwwphp7 ]]; then
+
+    if [[ ! -d $D/www ]]; then
+        mkdir -p $D/www
+    fi
+
+    ( cd $D && docker run --name wwwphp -d -p 80:80 -v `pwd`/www:/var/www/html -it --rm php:7.4-apache )
+    docker logs -f wwwphp
+
+    exit 0
+fi
+
 if [[ $1 = turbophpwww ]]; then
 
 ##    cat >Dockerfile <<"EOF"
