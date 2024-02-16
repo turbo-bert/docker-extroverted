@@ -30,5 +30,8 @@ gsed -Ei "s/^$VERSION_LINE$/$VERSION_LINE_NEW/g" $PP/$PN/pyproject.toml
 
 vpip uninstall -y $PN
 vpip cache remove $PN
+sleep 1
 vpip install $PN==$A.$BB.$C
+sleep 1
 vpip install $PN==$A.$BB.$C
+sleep 1
