@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt upgrade -y
 
-RUN apt install -y texlive-base build-essential git make
+RUN apt install -y build-essential git make texlive-latex-base texlive-latex-extra
 
 RUN apt install -y graphicsmagick-imagemagick-compat
 

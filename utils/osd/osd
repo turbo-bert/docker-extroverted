@@ -331,6 +331,17 @@ if [[ $1 = mysql ]]; then
     exit 0
 fi
 
+if [[ $1 = pg ]]; then
+    ( cd $D && docker run --rm -e POSTGRES_PASSWORD=foo123 -d --name pg -p 54320:5432 postgres )
+    exit 0
+fi
+
+if [[ $1 = ms ]]; then
+    #-e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=foo123" -p 1433:1433 --name sql1 --hostname sql1 -d mcr.microsoft.com/mssql/server:2022-latest
+    ( cd $D && docker run --rm -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=foo123FOO123" -p 1433:1433 --name mssql --hostname mssql -d mcr.microsoft.com/mssql/server:2022-latest )
+    exit 0
+fi
+
 if [[ $1 = mysqltestdb ]]; then
     set -x
     ( cd $D && docker run --rm -e MYSQL_DATABASE=testdb -e MYSQL_ROOT_PASSWORD=foo123 -d -v `pwd`:/var/lib/mysql --name mysql -p 3306:3306 $OPTS mysql:8 )
@@ -347,10 +358,19 @@ fi
 
 if [[ $1 = firefox || $1 = ff ]]; then
     set -x
-    ( cd $D && docker run --rm -d --name firefox --shm-size 2g -p 7900:7900 -p 4444:4444 -e SCREEN_WIDTH=1920 -e SCREEN_HEIGHT=1080 $OPTS selenium/standalone-firefox:latest )
+    ( cd $D && docker run --rm -d --name firefox --shm-size 4g -p 7900:7900 -p 4444:4444 -e SCREEN_WIDTH=1920 -e SCREEN_HEIGHT=1080 $OPTS selenium/standalone-firefox:latest )
     set +x
     echo "docker logs -f firefox"
     echo "docker stop firefox"
+    exit 0
+fi
+
+if [[ $1 = edge || $1 = ed ]]; then
+    set -x
+    ( cd $D && docker run --rm -d --name edge --shm-size 4g -p 7900:7900 -p 4444:4444 -e SCREEN_WIDTH=1920 -e SCREEN_HEIGHT=1080 $OPTS selenium/standalone-edge:latest )
+    set +x
+    echo "docker logs -f edge"
+    echo "docker stop edge"
     exit 0
 fi
 

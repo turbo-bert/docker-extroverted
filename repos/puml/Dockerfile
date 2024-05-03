@@ -12,7 +12,8 @@ ARG BUILDPLATFORM
 
 RUN apt update && apt upgrade -y
 
-RUN apt install -y mc less netcat-openbsd emacs-nox plantuml
+RUN apt install -y mc less plantuml
+#RUN apt install -y mc less netcat-openbsd emacs-nox plantuml
 
 RUN echo "$TARGETPLATFORM" >/platform
 
