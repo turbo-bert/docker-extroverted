@@ -1,8 +1,10 @@
 #!/bin/bash
 
 
-echo "Publish and Update?"
-read
+if [[ ! -f DEPLOY ]]; then
+    echo "Publish and Update?"
+    read
+fi
 
 PN=$(head -1 NAME)
 PP="../../$PN.pypi"
@@ -42,9 +44,48 @@ gsed -Ei "s/^$VERSION_LINE$/$VERSION_LINE_NEW/g" $PP/$PN/pyproject.toml
 ( cd $PP/$PN/dist && rm -fr * )
 ( cd $PP/$PN && make setup )
 ( cd $PP/$PN && make )
-( cd $PP/$PN && make upload )
 
-sleep 5
+
+
+deployment=$(gfind ../../$PN.pypi/$PN/dist -name "*.gz")
+echo "************************************************************************* local deployment"
+if [[ -f PIP ]]; then
+
+
+    set -x
+    $(head -1 PIP) uninstall -y $PN
+    set +x
+
+
+    if [[ ! -f DEPLOY ]]; then
+        echo "deploy? $deployment or CTRL-C to abort"
+        echo "*************************************************************************"
+        read
+    else
+        echo "*************** DEPLOY OVERRIDE **********************************************************"
+    fi
+
+    set -x
+    $(head -1 PIP) install $deployment
+    set +x
+fi
+echo "*************************************************************************"
+
+
+if [[ ! -f SKIP_UPLOAD ]]; then
+    echo "*************************************************************************"
+    echo "2x RETURN to upload to PyPI? or CTRL-C to abort"
+    echo "*************************************************************************"
+    read
+    read
+    ( cd $PP/$PN && make upload )
+fi
+
+if [[ -f POST.sh ]]; then
+    bash POST.sh "$deployment" "../../$PN.pypi/$PN/dist"
+fi
+
+sleep 2
 
 exit 0
 

@@ -4,7 +4,13 @@
 #keywords: pypi .pypirc twine setuptools
 
 
-PKGDEFAULT=my_pkg
+PKGDEFAULT="my_pkg"
+
+bettercand=$(pwd|grep pypi)
+
+if [[ ! -z $bettercand ]]; then
+    PKGDEFAULT=$(basename "$bettercand" | cut -d '.' -f 1)
+fi
 
 skeleton_pypi() {
     P=$1
