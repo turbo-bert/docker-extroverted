@@ -331,6 +331,17 @@ if [[ $1 = mysql ]]; then
     exit 0
 fi
 
+# mongodb
+# https://www.mongodb.com/docs/manual/tutorial/install-mongodb-community-with-docker/
+if [[ $1 = mo ]]; then
+    set -x
+    # -v `pwd`:/var/lib/mysql 
+    ( cd $D && docker run --rm -d --name mongo $OPTS -e "MONGO_INITDB_ROOT_USERNAME=root" -e "MONGO_INITDB_ROOT_PASSWORD=foo123" -v `pwd`/db:/data/db -p 27017:27017 mongodb/mongodb-community-server:latest )
+    set +x
+    docker logs -f mongo
+    exit 0
+fi
+
 if [[ $1 = pg ]]; then
     ( cd $D && docker run --rm -e POSTGRES_PASSWORD=foo123 -d --name pg -p 54320:5432 postgres )
     exit 0

@@ -4,6 +4,9 @@
 #keywords: pypi .pypirc twine setuptools
 
 
+PARAMIZED="$1"
+
+
 PKGDEFAULT="my_pkg"
 
 bettercand=$(pwd|grep pypi)
@@ -66,6 +69,13 @@ EOF
 
 }
 
+
+
+if [[ ! -z $PARAMIZED ]]; then
+    echo "got $PARAMIZED"
+    skeleton_pypi $PARAMIZED
+    exit 0
+fi
 
 while true; do
     exec 3>&1
