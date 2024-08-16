@@ -1,6 +1,14 @@
 #!/bin/bash
 
 
+## NAME content
+## DEPLOY touch
+## PIP content name for pip, i.e. vpip
+## SKIP_UPLOAD touch
+## POST.sh content $1 $2
+
+
+
 if [[ ! -f DEPLOY ]]; then
     echo "Publish and Update?"
     read
