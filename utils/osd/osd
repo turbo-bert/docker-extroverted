@@ -331,6 +331,22 @@ if [[ $1 = mysql ]]; then
     exit 0
 fi
 
+if [[ $1 = mysqlrunall ]]; then
+    for SQLF in $(ls *.sql | sort); do
+        set -x
+        cat $SQLF | mysql -u root -p --password=foo123 -h 127.0.0.1 -P 33060
+        set +x
+    done
+    
+    exit 0
+fi
+
+if [[ $1 = mysqlrun ]]; then
+    mysql -u root -p --password=foo123 -h 127.0.0.1 -P 33060
+    
+    exit 0
+fi
+
 # mongodb
 # https://www.mongodb.com/docs/manual/tutorial/install-mongodb-community-with-docker/
 if [[ $1 = mo ]]; then

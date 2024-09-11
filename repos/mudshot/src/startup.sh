@@ -8,6 +8,7 @@ if [[ ! -f FROM ]]; then
     echo ""
     cat <<EOF
 echo "me@localhost" >FROM
+echo "Bob Sinclair" >FROM_NAME
 echo "notme@localhost" >TO
 echo "not so urgent but handy" >SUBJECT
 echo "host.docker.internal" >HOST
@@ -27,13 +28,30 @@ MRC=/root/.muttrc
 
 cat /dev/null >$MRC
 
-echo "my_hdr \"From: $(cat FROM)\"" >>$MRC
+echo "my_hdr From: $(cat FROM_NAME) <$(cat FROM)>" >>$MRC
 echo "set from=\"$(cat FROM)\"" >>$MRC
 echo "set ssl_force_tls=no" >>$MRC
 echo "set ssl_starttls=no" >>$MRC
 echo "set smtp_url=\"smtp://$(cat HOST):$(cat PORT)\"" >>$MRC
 
 
-#cat $MRC
+echo "*********************************************"
+cat $MRC
+echo "*********************************************"
+echo ""
 
-cat BODY | mutt -s "$(cat SUBJECT)" "$(cat TO)"
+# Attachments?
+APART=""
+ACNT=$(ls -1 attachments | wc -l)
+
+if [[ ! $ACNT = 0 ]]; then
+    APART="-a $(find attachments -type f) --"
+fi
+
+echo "Sending (A=$ACNT)..."
+set -x
+cat BODY | mutt -s "$(cat SUBJECT)" $APART "$(cat TO)"
+EC=$?
+set +x
+echo "Sending... done"
+echo "$EC" >STATUS
