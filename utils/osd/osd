@@ -15,6 +15,48 @@ if [[ $mactest = 0 ]]; then
 fi
 
 
+
+
+
+if [[ $1 = py ]]; then
+    PY=$2
+
+    if [[ -d $PY.pypi ]]; then
+        echo "directory $PY.pypi exists, aborting" 1>&2
+        exit 1
+    fi
+
+    if [[ -d $PY ]]; then
+        echo "directory $PY exists, aborting" 1>&2
+        exit 1
+    fi
+
+    echo -n "last chance to abort: Create dirs '$PY.pypi' and '$PY' here: '`pwd`' ?"
+    read
+
+    mkdir -p $PY/build
+    echo -n $PY >$PY/build/NAME
+    ( cd $PY/build && ln -s ../../docker-extroverted/utils/pypi/publish.sh )
+    ( cd $PY/build && ln -s ../../$PY.pypi/$PY/pyproject.toml )
+    mkdir -p $PY/src/$PY
+    touch $PY/src/$PY/__main__.py
+    touch $PY/src/$PY/__init__.py
+    cat >$PY/src/run.sh <<EOF
+#!/bin/bash
+
+vp -m $PY
+EOF
+    chmod a+x $PY/src/run.sh
+    mkdir -p $PY.pypi
+    pushd $PY.pypi
+    ppprepper $PY
+    popd
+
+    exit 0
+fi
+
+
+
 if [[ -z $1 ]]; then
     cat <<"EOF"
 ===============================================================================
