@@ -119,6 +119,7 @@ mk_docker_scripts() {
     echo -en "#!/bin/bash\n\n\ndocker buildx build --platform linux/arm64,linux/amd64 --no-cache -t $funky_tag .\n"  >$funky_dir/X_DOCKER_BUILD_NOCACHE.sh
     echo -en "#!/bin/bash\n\n\ndocker buildx build --platform linux/arm64,linux/amd64 --push -t $funky_tag .\n"      >$funky_dir/X_DOCKER_PUSH.sh
     echo -en "#!/bin/bash\n\n\ndocker buildx build --load -t $funky_tag .\n"      >$funky_dir/X_DOCKER_BUILD_HERE.sh
+    echo -en "#!/bin/bash\n\n\ndocker buildx build --load --platform linux/arm64 -t $funky_tag .\n"      >$funky_dir/X_DOCKER_LOCAL_LOAD_IMAGE_ARM64.sh
 
     ( cd $funky_dir && chmod a+x *.sh )
 
