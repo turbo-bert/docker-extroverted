@@ -1,0 +1,7 @@
+#!/bin/bash
+
+
+echo -n "Execute dockerized dban mysql analyzer here? $PWD with RETURN or press CTRL-C to abort"
+read
+
+docker run --rm -v $PWD:/work -it turbobert/dban "$@"
