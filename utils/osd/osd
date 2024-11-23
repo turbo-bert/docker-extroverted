@@ -16,6 +16,9 @@ fi
 
 
 
+GUESS_NAME=$(basename `pwd`)
+
+
 
 
 if [[ $1 = py ]]; then
@@ -161,7 +164,10 @@ if [[ $1 = slim ]]; then
     fi
 
     if [[ ! -f DTAG ]]; then
-        echo $OSD_ENV_DTAG >DTAG
+        #todo
+        #echo $OSD_ENV_DTAG >DTAG
+        echo -n $OSD_ENV_DTAG | cut -d '/' -f 1 | tr -d '\n' >DTAG
+        echo -n "/$GUESS_NAME" >>DTAG
     fi
 
     mk_docker_scripts "\`cat DTAG\`"
