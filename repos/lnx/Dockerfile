@@ -30,4 +30,4 @@ COPY src/startup.sh /startup.sh
 
 CMD [ "/bin/bash", "/startup.sh" ]
 
-RUN apt install -y libnginx-mod-http-lua
+RUN apt install -y libnginx-mod-http-lua rsync
