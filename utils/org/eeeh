@@ -11,6 +11,12 @@ if [[ -f $1 ]]; then
 #+OPTIONS: H:5 author:nil
 
 #+HTML_HEAD: <style>#text-table-of-contents { width: 80%; border-left: 5px solid black; padding: 10px; font-size: 80%; margin-left: 50px; margin-top: 80px; margin-bottom: 80px; }</style>
+#+HTML_HEAD: <style>span.section-number-1 { margin-top: 50px; }</style>
+#+HTML_HEAD: <style>span.section-number-2 { margin-top: 50px; }</style>
+#+HTML_HEAD: <style>span.section-number-3 { margin-top: 50px; }</style>
+#+HTML_HEAD: <style>span.section-number-4 { margin-top: 50px; }</style>
+#+HTML_HEAD: <style>span.section-number-5 { margin-top: 50px; }</style>
+#+HTML_HEAD: <style>span.section-number-6 { margin-top: 50px; }</style>
 #+HTML_HEAD: <style>pre.src { line-height: 100%; border: 0px solid white; color: black; background-color: #efefef; margin: 5px; padding: 25px; }</style>
 #+HTML_HEAD: <style>body { font-size: 135%; font-family: 'DIN Alternate'; line-height: 150%; }</style>
 #+HTML_HEAD: <style>#table-of-contents h2 { display: none; }</style>
