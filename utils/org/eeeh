@@ -28,7 +28,12 @@ EOF
     emacs "$F" --batch -f org-html-export-to-html --kill
     rm -f "$FF"
     cat $F.backup >$F
-    open -a "Google Chrome" "$FFHTML"
+    cat "$FFHTML" | gsed -E "s|(<pre[^>]+>)(.*)|<input style=\"margin-top: 30px;\" type=\"button\" onclick=\"navigator.clipboard.writeText(this.nextSibling.innerText); this.value='copied to clipboard';\" value=\"Copy\" />\\1\\2|g" > "${FFHTML}.tmp"
+    cat "${FFHTML}.tmp" >"${FFHTML}"
+    rm -f "${FFHTML}.tmp"
+    if [[ -z "$NOEEEE" ]]; then
+        open -a "Google Chrome" "$FFHTML"
+    fi
     exit 0
 fi
 
