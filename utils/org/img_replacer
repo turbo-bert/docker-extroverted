@@ -1,0 +1,56 @@
+#!/bin/bash
+
+T1=/tmp/image-tags
+T2=/tmp/image-files
+TPRE=/tmp/image-data-
+
+#set -x
+
+if [[ -f $1 ]]; then
+    O="inline_$1"
+    cat "$1" | grep '<img src=' | gsed -E 's/.*(<img src="[^>]+>).*/\1/g' | grep -v '^$' >$T1
+    cat "$1" >$O
+
+    # imagecount
+    IMGC=$(wc -l $T1 | awk '{print $1}')
+    echo "count:$IMGC"
+
+    for I in $(seq 1 $IMGC); do
+        #((LPO=L+1))
+        F=$(tail -n +$I $T1 | head -1 | gsed -E 's/.*<img src="([^"]+)".*/\1/g')
+
+        openssl base64 -in $F -out $TPRE$I.withnewlines
+        cat $TPRE$I.withnewlines | tr -d '\n' | tr -d '\r' >$TPRE$I
+
+
+        MT=""
+
+        if [[ "$F" == *".png" ]]; then
+            MT="image/png"
+        fi
+
+        if [[ "$F" == *".jpg" ]]; then
+            MT="image/jpeg"
+        fi
+
+        if [[ -z "$MT" ]]; then
+            echo "error unknown file type for $F"
+            exit 1
+        fi
+
+        echo -n "data:$MT;base64,">$TPRE$I.data
+
+        cat $TPRE$I >> $TPRE$I.data
+
+        gsed -Ei "s|(.*<img src=\")$F(\".*)|\\1`cat $TPRE$I.data`\\2|g" $O
+        echo "$I: $F"
+    done
+
+    cat $O > "$1"
+    rm -f $O
+
+    #cat "$1" > "$OF" # gsed -z 's|\n</pre>|</pre>|g' >"${CFLHTML}"
+    #e $T1
+    #echo "press return"
+    #read
+fi

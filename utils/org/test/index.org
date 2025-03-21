@@ -1,0 +1,8 @@
+* image test
+
+
+file:resources/img/blau.png
+
+jaja
+
+file:resources/img/2blau.png
