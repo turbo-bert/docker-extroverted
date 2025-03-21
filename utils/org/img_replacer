@@ -7,7 +7,7 @@ TPRE=/tmp/image-data-
 #set -x
 
 if [[ -f $1 ]]; then
-    O="inline_$1"
+    O="$1.imageinlinereplacertmp"
     cat "$1" | grep '<img src=' | gsed -E 's/.*(<img src="[^>]+>).*/\1/g' | grep -v '^$' >$T1
     cat "$1" >$O
 
