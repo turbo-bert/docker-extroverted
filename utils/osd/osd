@@ -160,6 +160,88 @@ fi
 
 
 
+if [[ $1 = ub24 ]]; then
+    
+    if [[ ! -z $2 ]]; then
+        echo -en `echo $OSD_ENV_DTAG | cut -d '/' -f 1 | tr -d '\n'` >DTAG
+        echo "/$2" >>DTAG
+    fi
+
+    if [[ ! -f DTAG ]]; then
+        #todo
+        #echo $OSD_ENV_DTAG >DTAG
+        echo -n $OSD_ENV_DTAG | cut -d '/' -f 1 | tr -d '\n' >DTAG
+        echo -n "/$GUESS_NAME" >>DTAG
+    fi
+
+    mk_docker_scripts "\`cat DTAG\`"
+    mkdir src
+
+    cat >src/startup.sh <<EOF
+#!/bin/bash
+
+
+#. /venv/bin/activate
+
+#python -m PYMOD -u
+#python -m PYMOD
+
+echo "startup.sh not customized yet!"
+read
+#cd /app && python -u -m YOUR_MODULE
+EOF
+
+    chmod a+x src/startup.sh
+
+
+    cat >Dockerfile <<"EOF"
+FROM ubuntu:24.04
+
+WORKDIR /work
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+ARG TARGETPLATFORM
+
+ARG BUILDPLATFORM
+
+RUN apt update && apt upgrade -y
+
+RUN apt install -y mc less netcat-openbsd emacs-nox
+
+RUN apt install -y dialog python3 python3-pip python3-venv build-essential lazarus
+
+RUN echo "$TARGETPLATFORM" >/platform
+
+#RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then echo arm | tee -a ../ap; fi
+
+#RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then echo x86 | tee -a ../ap; fi
+
+RUN cd / && python3 -m venv venv
+
+RUN . /venv/bin/activate && pip install rich requests pandas openpyxl pythondialog reportlab
+
+#COPY src/PYMOD /venv/lib/python3.11/site-packages/PYMOD
+
+COPY src/startup.sh /startup.sh
+
+CMD [ "/bin/bash", "/startup.sh" ]
+
+EOF
+
+
+    WRAPPERNAME=${2:-generic_wrapper}
+    # tag actual
+    TA=$(cat DTAG)
+    cat DOCKER_RUN.sh | $SEDCOMMAND "s|\`cat DTAG\`|$TA \"\$\@\"|g" >$WRAPPERNAME
+    chmod a+x $WRAPPERNAME
+
+    exit 0
+
+fi # ub24 end
+
+
+
 if [[ $1 = slim ]]; then
     
     if [[ ! -z $2 ]]; then
@@ -647,3 +729,11 @@ if [[ $1 = cli ]]; then
     exit 0
 fi
 
+if [[ $1 = dc ]]; then
+    # https://docs.docker.com/reference/compose-file/
+    DCFILENAME="dc-new.yaml"
+    cat >$DCFILENAME <<"EOF"
+test
+EOF
+    exit 0
+fi
