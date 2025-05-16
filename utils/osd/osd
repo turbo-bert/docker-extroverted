@@ -21,6 +21,11 @@ GUESS_NAME=$(basename `pwd`)
 
 
 
+if [[ $1 = uu ]]; then
+    curl -L -o dockerversions.txt "https://docs.docker.com/desktop/release-notes/"
+    exit 0
+fi
+
 if [[ $1 = py ]]; then
     PY=$2
 
