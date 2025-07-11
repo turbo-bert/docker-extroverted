@@ -31,6 +31,10 @@ if [[ -f $1 ]]; then
                 MT="image/png"
             fi
 
+            if [[ "$F" == *".svg" ]]; then
+                MT="image/svg+xml"
+            fi
+
             if [[ "$F" == *".jpg" ]]; then
                 MT="image/jpeg"
             fi
