@@ -10,16 +10,20 @@ if [[ -f $1 ]]; then
     cat >$F <<EOF
 #+OPTIONS: H:8 author:nil
 
-#+HTML_HEAD: <style>#text-table-of-contents { width: 80%; border-left: 5px solid black; padding: 10px; font-size: 80%; margin-left: 50px; margin-top: 80px; margin-bottom: 80px; }</style>
-#+HTML_HEAD: <style>h2 { margin-top: 70px; }</style>
-#+HTML_HEAD: <style>h3 { margin-top: 70px; }</style>
-#+HTML_HEAD: <style>h4 { margin-top: 70px; }</style>
-#+HTML_HEAD: <style>h5 { margin-top: 70px; }</style>
-#+HTML_HEAD: <style>h6 { margin-top: 70px; }</style>
-#+HTML_HEAD: <style>h7 { margin-top: 70px; }</style>
-#+HTML_HEAD: <style>h8 { margin-top: 70px; }</style>
-#+HTML_HEAD: <style>pre.src { line-height: 100%; border: 0px solid white; color: black; background-color: #efefef; margin: 5px; padding: 25px; }</style>
-#+HTML_HEAD: <style>body { font-size: 135%; font-family: 'DIN Alternate'; line-height: 150%; }</style>
+#+OPTIONS: title:nil
+
+
+#+HTML_HEAD: <style>#text-table-of-contents { width: 80%; border-left: 2px solid black; padding: 10px; font-size: 80%; margin-left: 5px; margin-top: 80px; margin-bottom: 80px; }</style>
+#+HTML_HEAD: <style>h2 { margin-top: 95px; background: white; padding: 10px; border-bottom: 2px solid black; }</style>
+#+HTML_HEAD: <style>h3 { margin-top: 95px; background: white; padding: 10px; border-bottom: 2px solid black; }</style>
+#+HTML_HEAD: <style>h4 { margin-top: 95px; background: white; padding: 10px; border-bottom: 2px solid black; }</style>
+#+HTML_HEAD: <style>h5 { margin-top: 95px; background: white; padding: 10px; border-bottom: 2px solid black; }</style>
+#+HTML_HEAD: <style>h6 { margin-top: 95px; background: white; padding: 10px; border-bottom: 2px solid black; }</style>
+#+HTML_HEAD: <style>h7 { margin-top: 95px; background: white; padding: 10px; border-bottom: 2px solid black; }</style>
+#+HTML_HEAD: <style>h8 { margin-top: 95px; background: white; padding: 10px; border-bottom: 2px solid black; }</style>
+#+HTML_HEAD: <style>pre.src { line-height: 100%; border: 0px solid grey; color: black; background-color: beige; margin: 5px; padding: 25px; }</style>
+#+HTML_HEAD: <style>body { font-size: 105%; font-family: 'DIN Alternate'; line-height: 115%; }</style>
+#+HTML_HEAD: <style>#table-of-contents { background: white; }</style>
 #+HTML_HEAD: <style>#table-of-contents h2 { display: none; }</style>
 #+HTML_HEAD: <style>#content { max-width: 95%; }</style>
 #+HTML_HEAD: <style>span.timestamp { font-size: 80%; color: #dfdfdf; font-weight: bold; background-color: black; margin-left: 10px; padding-left: 10px; margin-right: 10px; padding-right: 10px; padding-top: 3px; padding-bottom: 3px; }</style>
@@ -37,7 +41,10 @@ EOF
     img_replacer "$FFHTML"
     rm -f "$FF"
     cat $F.backup >$F
-    cat "$FFHTML" | gsed -E "s|(<pre[^>]+>)(.*)|<input style=\"position: absolute; font-size: 12px; z-index: 100;\" type=\"button\" onclick=\"navigator.clipboard.writeText(this.nextSibling.innerText.trim()); this.value='copied to clipboard';\" value=\"Copy\" />\\1\\2|g" > "${FFHTML}.tmp"
+    cat "$FFHTML" | gsed -E "s|(<pre[^>]+>)(.*)|<input style=\"right: 5px; position: absolute; font-size: 16px; z-index: 100;\" type=\"button\" onclick=\"let text = this.nextSibling.innerText.trim(); text = text.replace(/\\\\r/g, ''); navigator.clipboard.writeText(text);        const lcount = (text.match(/\\\\n/g) \|\| \[\]).length;            this.value='Copied linebreaks: ' + lcount; this.nextSibling.style.border = '0px dashed red';\" value=\"⧉\" />\\1\\2|g" \
+    | gsed -E "s|<body>|<body style=\"background: #e7e7e7;\">|g" \
+    | gsed -E "s|<a href=\"https://| ⎋ <a href=\"https://|g" \
+     > "${FFHTML}.tmp"
     cat "${FFHTML}.tmp" >"${FFHTML}"
     cat "${FFHTML}.tmp" | gsed -E 's|<div id="table-of-contents" |<div id="table-of-contents" style="display: none;" |g' | gsed -z 's|\n</pre>|</pre>|g' >"${CFLHTML}"
     rm -f "${FFHTML}.tmp"
