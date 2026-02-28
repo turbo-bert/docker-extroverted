@@ -29,6 +29,7 @@ if [[ -f $1 ]]; then
 #+HTML_HEAD: <style>span.timestamp { font-size: 80%; color: #dfdfdf; font-weight: bold; background-color: black; margin-left: 10px; padding-left: 10px; margin-right: 10px; padding-right: 10px; padding-top: 3px; padding-bottom: 3px; }</style>
 #+HTML_HEAD: <style>span.todo { color: white; background-color: red; padding: 5px; }</style>
 #+HTML_HEAD: <style>#postamble { display: none; }</style>
+#+HTML_HEAD: <style>tr:hover { background: darkorange; }</style>
 #+TITLE: $TITLE
 
 EOF
@@ -42,6 +43,7 @@ EOF
     rm -f "$FF"
     cat $F.backup >$F
     cat "$FFHTML" | gsed -E "s|(<pre[^>]+>)(.*)|<input style=\"right: 5px; position: absolute; font-size: 16px; z-index: 100;\" type=\"button\" onclick=\"let text = this.nextSibling.innerText.trim(); text = text.replace(/\\\\r/g, ''); navigator.clipboard.writeText(text);        const lcount = (text.match(/\\\\n/g) \|\| \[\]).length;            this.value='Copied linebreaks: ' + lcount; this.nextSibling.style.border = '0px dashed red';\" value=\"⧉\" />\\1\\2|g" \
+    | gsed -z 's/\n<\/pre>/<\/pre>/g' \
     | gsed -E "s|<body>|<body style=\"background: #e7e7e7;\">|g" \
     | gsed -E "s|<a href=\"https://| ⎋ <a href=\"https://|g" \
      > "${FFHTML}.tmp"
