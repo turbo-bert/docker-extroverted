@@ -141,8 +141,8 @@ EOF
     echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker buildx build  \$PROXY_EXTRA  --platform linux/arm64 --no-cache -t $funky_tag .\n"                                            >$funky_dir/Z_BUILDX_ARM64_DOCKER_BUILD_NOCACHE.sh
     echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker buildx build  \$PROXY_EXTRA  --platform linux/arm64 --load -t $funky_tag .\n"                                                >$funky_dir/Z_BUILDX_ARM64_DOCKER_BUILD_Z_AND_LOAD.sh
     echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker buildx build  \$PROXY_EXTRA  --platform linux/arm64 --push -t $funky_tag .\n"                                                >$funky_dir/Z_BUILDX_ARM64_DOCKER_BUILD_Z_AND_PUSH.sh
-    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker buildx build  \$PROXY_EXTRA  --platform linux/amd64 -t $funky_tag --output type=docker,dest=export-arm64.tar .\n"            >$funky_dir/Z_BUILDX_ARM64_DOCKER_BUILD_EXPORTDOCKER_CACHED.sh
-    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker buildx build  \$PROXY_EXTRA  --platform linux/amd64 -t $funky_tag --no-cache --output type=docker,dest=export-arm64.tar .\n" >$funky_dir/Z_BUILDX_ARM64_DOCKER_BUILD_EXPORTDOCKER_NOCACHE.sh
+    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker buildx build  \$PROXY_EXTRA  --platform linux/arm64 -t $funky_tag --output type=docker,dest=export-arm64.tar .\n"            >$funky_dir/Z_BUILDX_ARM64_DOCKER_BUILD_EXPORTDOCKER_CACHED.sh
+    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker buildx build  \$PROXY_EXTRA  --platform linux/arm64 -t $funky_tag --no-cache --output type=docker,dest=export-arm64.tar .\n" >$funky_dir/Z_BUILDX_ARM64_DOCKER_BUILD_EXPORTDOCKER_NOCACHE.sh
 
     echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker buildx build  \$PROXY_EXTRA  --platform linux/amd64 -t $funky_tag .\n"                                                       >$funky_dir/Z_BUILDX_X86_DOCKER_BUILD_CACHED.sh
     echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker buildx build  \$PROXY_EXTRA  --platform linux/amd64 --no-cache -t $funky_tag .\n"                                            >$funky_dir/Z_BUILDX_X86_DOCKER_BUILD_NOCACHE.sh
