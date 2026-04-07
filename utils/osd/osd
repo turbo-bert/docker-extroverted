@@ -120,6 +120,8 @@ mk_docker_scripts() {
     if [[ ! -f ".proxy" ]]; then
         cat >.proxy <<EOF
 export PROXY_EXTRA=""
+#export PROXY_EXTRA="--build-arg HTTP_PROXY=http://host-gateway:31280 --build-arg HTTPS_PROXY=http://host-gateway:31280 --build-arg NO_PROXY=localhost,127.0.0.1"
+#export PROXY_EXTRA="--build-arg HTTP_PROXY=http://docker.host.internal:31280 --build-arg HTTPS_PROXY=http://docker.host.internal:31280 --build-arg NO_PROXY=localhost,127.0.0.1"
 #export PROXY_EXTRA="--build-arg HTTP_PROXY=http://192.168.178.27:31280 --build-arg HTTPS_PROXY=http://192.168.178.27:31280 --build-arg NO_PROXY=localhost,127.0.0.1"
 EOF
     fi
