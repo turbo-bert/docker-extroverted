@@ -126,10 +126,10 @@ EOF
 
     echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker build  \$PROXY_EXTRA  -t $funky_tag .\n"                                                       >$funky_dir/DOCKER_BUILD_CACHED.sh
     echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker build  \$PROXY_EXTRA  --no-cache -t $funky_tag .\n"                                            >$funky_dir/DOCKER_BUILD_NOCACHE.sh
-    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker run    \$PROXY_EXTRA  --rm -v \$PWD:/work -it $funky_tag\n"                                    >$funky_dir/DOCKER_RUN.sh
-    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker run    \$PROXY_EXTRA  --rm -v \$PWD:/work -it $funky_tag /bin/bash\n"                          >$funky_dir/DOCKER_RUN_BASH_PWD_WORK.sh
-    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker run    \$PROXY_EXTRA  --rm                -it $funky_tag /bin/bash\n"                          >$funky_dir/DOCKER_RUN_BASH_NO_WORK.sh
-    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker run    \$PROXY_EXTRA  --rm -v \$PWD/work:/work -it $funky_tag /bin/bash\n"                     >$funky_dir/DOCKER_RUN_BASH_WORK_WORK.sh
+    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker run                   --rm -v \$PWD:/work -it $funky_tag\n"                                    >$funky_dir/DOCKER_RUN.sh
+    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker run                   --rm -v \$PWD:/work -it $funky_tag /bin/bash\n"                          >$funky_dir/DOCKER_RUN_BASH_PWD_WORK.sh
+    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker run                   --rm                -it $funky_tag /bin/bash\n"                          >$funky_dir/DOCKER_RUN_BASH_NO_WORK.sh
+    echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker run                   --rm -v \$PWD/work:/work -it $funky_tag /bin/bash\n"                     >$funky_dir/DOCKER_RUN_BASH_WORK_WORK.sh
     echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker push   \$PROXY_EXTRA  $funky_tag\n"                                                            >$funky_dir/DOCKER_PUSH.sh
 
     echo -en "#!/bin/bash\n\n\nsource .proxy\n\ndocker buildx build  \$PROXY_EXTRA  --platform linux/arm64,linux/amd64 -t $funky_tag .\n"             >$funky_dir/Z_BUILDX_MULTI_DOCKER_BUILD_CACHED.sh
