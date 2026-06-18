@@ -714,7 +714,8 @@ if [[ $1 = wwwphp ]]; then
         mkdir -p $D/www
     fi
 
-    ( cd $D && docker run --name wwwphp -d -p 80:80 -v `pwd`/www:/var/www/html -it --rm php:8-apache )
+    #( cd $D && docker run --name wwwphp -d -p 80:80 -v `pwd`/www:/var/www/html -it --rm php:8-apache )
+    ( cd $D && docker run --name wwwphp -d -p 80:80 -v `pwd`/www:/var/www/html -it --rm turbobert/wwwphp:latest ) # incl postgres
     docker logs -f wwwphp
 
     exit 0
