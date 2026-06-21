@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 WORKDIR /work
 
@@ -10,9 +10,9 @@ ARG BUILDPLATFORM
 
 RUN apt update && apt upgrade -y
 
-RUN apt install -y mc less netcat-openbsd emacs-nox
+#RUN apt install -y mc less netcat-openbsd emacs-nox
 
-RUN apt install -y dialog python3 python3-pip python3-venv build-essential
+RUN apt install -y python3 python3-pip python3-venv build-essential
 
 RUN echo "$TARGETPLATFORM" >/platform
 
@@ -22,11 +22,12 @@ RUN echo "$TARGETPLATFORM" >/platform
 
 RUN cd / && python3 -m venv venv
 
-RUN . /venv/bin/activate && pip install rich requests pandas openpyxl pythondialog reportlab selenium
+RUN . /venv/bin/activate && pip install dcx
 
-COPY src/dcx /venv/lib/python3.11/site-packages/dcx
+#COPY src/PYMOD /venv/lib/python3.11/site-packages/PYMOD
 
 COPY src/startup.sh /startup.sh
 
-CMD [ "/bin/bash", "/startup.sh" ]
+COPY src/startup.sh /dcx
 
+CMD [ "/bin/bash", "/startup.sh" ]

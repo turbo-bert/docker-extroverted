@@ -1,4 +1,6 @@
 #!/bin/bash
 
 
-docker build --no-cache -t `cat DTAG` .
+source .proxy
+
+docker build  $PROXY_EXTRA  --no-cache -t `cat DTAG` .
