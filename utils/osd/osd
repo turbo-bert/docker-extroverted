@@ -612,6 +612,51 @@ if [[ $1 = pg ]]; then
     exit 0
 fi
 
+if [[ $1 = www ]]; then
+
+
+    DCFILE="$D/docker-compose.yml"
+
+    echo "$DCFILE"
+
+    if [[ ! -f "$DCFILE" ]]; then
+        cat >$DCFILE <<EOF
+services:
+
+  app:
+    image: turbobert/wwwphp:latest
+    volumes:
+      - ./www:/var/www/html:rw
+    expose:
+      - "80"
+
+  waf:
+    image: owasp/modsecurity-crs:4.25.0-nginx-lts
+    ports:
+      - "80:8080"
+      - "443:8443"
+    environment:
+      BACKEND: "http://app:80"
+      SERVER_NAME: "localhost"
+      MODSEC_RULE_ENGINE: "on"
+      BLOCKING_PARANOIA: "1"
+      DETECTION_PARANOIA: "1"
+      MODSEC_AUDIT_ENGINE: "RelevantOnly"
+      LOGLEVEL: "warn"
+
+      NGINX_ALWAYS_TLS_REDIRECT: "on"
+    volumes:
+      - ./certs/tls.crt:/etc/nginx/conf/server.crt:ro
+      - ./certs/tls.key:/etc/nginx/conf/server.key:ro
+    depends_on:
+      - app
+EOF
+    fi
+
+    #( cd $D && docker run --rm -e POSTGRES_PASSWORD=foo123 -d --name pg -p 54320:5432 postgres )
+    exit 0
+fi
+
 if [[ $1 = ms ]]; then
     #-e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=foo123" -p 1433:1433 --name sql1 --hostname sql1 -d mcr.microsoft.com/mssql/server:2022-latest
     ( cd $D && docker run --rm -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=foo123FOO123" -p 1433:1433 --name mssql --hostname mssql -d mcr.microsoft.com/mssql/server:2022-latest )
