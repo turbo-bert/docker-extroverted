@@ -13,9 +13,7 @@ if [[ ! $1 = 22 ]]; then
     fi
 fi
 
-set -x
-docker pull $(echo $IMG | cut -d ':' -f 1)
-set +x
+docker pull --platform linux/amd64 $IMG
 
 D=`pwd`
 
