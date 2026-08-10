@@ -13,10 +13,19 @@ if [[ ! $1 = 22 ]]; then
     fi
 fi
 
+docker pull $IMG
+
 D=`pwd`
+
+
+
 
 echo -n "Press ENTER to run $IMG in $D or CTRL-C to abort..."
 read
 
-docker pull $IMG
-docker run     --platform linux/amd64              --rm -v "$D:/work" -it $IMG
+if [[ $2 = i ]]; then
+    docker run     --platform linux/amd64              --rm -v "$D:/work" -it $IMG /bin/bash
+    exit 0
+else
+    docker run     --platform linux/amd64              --rm -v "$D:/work" -it $IMG
+fi
