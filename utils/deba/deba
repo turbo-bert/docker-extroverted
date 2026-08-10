@@ -1,0 +1,22 @@
+#!/bin/bash
+
+
+# deb bauer
+IMG="turbobert/debauer$1:latest"
+
+if [[ ! $1 = 22 ]]; then
+    if [[ ! $1 = 24 ]]; then
+        if [[ ! $1 = 26 ]]; then
+            echo "Invalid docker image $IMG" 1>&2
+            exit 1
+        fi
+    fi
+fi
+
+D=`pwd`
+
+echo -n "Press ENTER to run $IMG in $D or CTRL-C to abort..."
+read
+
+docker pull $IMG
+docker run     --platform linux/amd64              --rm -v "$D:/work" -it $IMG
