@@ -712,6 +712,15 @@ if [[ $1 = redis || $1 = re ]]; then
     exit 0
 fi
 
+if [[ $1 = rediss || $1 = re ]]; then
+    set -x
+    ( cd $D && docker run --rm -d --name redis-stack -p 6379:6379 -p 8001:8001 -e REDIS_ARGS="--requirepass foo123" $OPTS redis/redis-stack:latest )
+    set +x
+    echo "redis on 127.0.0.1:6379 or host.docker.internal:6379"
+    echo "http://localhost:8001/"
+    exit 0
+fi
+
 if [[ $1 = multi ]]; then
     set -x
     docker buildx create --name mybuilder
@@ -759,9 +768,19 @@ if [[ $1 = wwwphp ]]; then
         mkdir -p $D/www
     fi
 
+    # docker run --name wwwphp -d -p 80:80 -v "%cd%\www:/var/www/html" -it --rm turbobert/wwwphp:latest
+
     #( cd $D && docker run --name wwwphp -d -p 80:80 -v `pwd`/www:/var/www/html -it --rm php:8-apache )
     ( cd $D && docker run --name wwwphp -d -p 80:80 -v `pwd`/www:/var/www/html -it --rm turbobert/wwwphp:latest ) # incl postgres
     docker logs -f wwwphp
+
+    exit 0
+fi
+
+if [[ $1 = log ]]; then
+
+    ( cd $D && docker run --name logudp -d -p 5140:514/udp -it --rm turbobert/log:latest )
+    docker exec logudp /bin/bash -c 'tail -f /var/log/syslog'
 
     exit 0
 fi
@@ -817,4 +836,166 @@ services:
     command: ["sleep", "infinity"]
 EOF
     exit 0
+fi
+
+
+
+
+
+
+
+
+if [[ $1 = fl ]]; then
+
+    N=$(basename `pwd`)
+    echo -n "we are [$N] - continue will full flask up?"
+    read
+
+    #####################################################################
+
+    cat >app.py <<"EOF"
+from flask import Flask, g, jsonify
+
+from db import SessionLocal
+from models import User
+
+
+app = Flask(__name__)
+
+
+@app.before_request
+def open_db():
+    g.db = SessionLocal()
+
+
+@app.teardown_request
+def close_db(exc):
+    db = g.pop("db", None)
+
+    if db is None:
+        return
+
+    try:
+        if exc is not None:
+            db.rollback()
+    finally:
+        db.close()
+
+
+@app.get("/api/users/<int:user_id>")
+def get_user(user_id):
+    user = g.db.get(User, user_id)
+
+    if user is None:
+        return jsonify({"error": "not found"}), 404
+
+    return jsonify({
+        "id": user.id,
+        "name": user.name,
+    })
+
+
+@app.post("/api/users/<name>")
+def create_user(name):
+    user = User(name=name)
+
+    g.db.add(user)
+    g.db.commit()
+    g.db.refresh(user)
+
+    return jsonify({
+        "id": user.id,
+        "name": user.name,
+    }), 201
+
+
+@app.get("/")
+def get_root():
+    return jsonify({
+        "ok": "ok"
+    })
+
+EOF
+
+
+    #####################################################################
+
+    cat >db.py <<"EOF"
+import os
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+
+DATABASE_URL = os.environ.get(
+    "DATABASE_URL",
+    "mysql+pymysql://root:foo123@host.docker.internal:33060/test"
+)
+
+
+engine = create_engine(
+    DATABASE_URL,
+
+    # Verbindung vor Verwendung testen.
+    # Sinnvoll bei DB-Neustarts / abgelaufenen Verbindungen.
+    pool_pre_ping=True,
+
+    # Beispielwerte; siehe Hinweis unten.
+    pool_size=5,
+    max_overflow=5,
+)
+
+SessionLocal = sessionmaker(
+    bind=engine,
+    expire_on_commit=False,
+)
+EOF
+
+    #####################################################################
+
+    cat >models.py <<"EOF"
+from sqlalchemy import String
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+
+
+class Base(DeclarativeBase):
+    pass
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(100))
+
+EOF
+
+
+    #####################################################################
+
+    cat >requirements.txt <<EOF
+flask
+gunicorn
+Flask-SQLAlchemy
+PyMySQL
+SQLAlchemy
+EOF
+
+    #####################################################################
+    
+    cat >start.sh <<"EOF"
+#!/bin/bash
+
+
+vp -m gunicorn \
+    --bind 127.0.0.1:8000 \
+    --workers 4 \
+    --access-logfile - \
+    --error-logfile - \
+    app:app
+
+EOF
+
+    #####################################################################
+
 fi
