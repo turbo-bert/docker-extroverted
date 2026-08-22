@@ -1,4 +1,6 @@
 #!/bin/bash
 
 
-docker push `cat DTAG`
+source .proxy
+
+docker push   $PROXY_EXTRA  `cat DTAG`

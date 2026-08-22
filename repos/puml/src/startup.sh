@@ -1,6 +1,8 @@
 #!/bin/bash
 
 
+export LANG=en_US.UTF-8
+
 for f in "$(ls *.uml)"; do
     ff=${f%%.uml}
     set -x

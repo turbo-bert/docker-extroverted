@@ -854,10 +854,16 @@ if [[ $1 = dcs ]]; then
     # prep docker compose file for deb generation with exported images and no registry access
     YFILE="compose.yaml"
     mkdir -p $DISTDIR
-    docker compose build $DCS_BUILD_EXTRA
+
+    PROXY_EXTRA="--build-arg HTTP_PROXY=http://192.168.178.27:31280 --build-arg NO_PROXY=localhost,127.0.0.1"
+    #PROXY_EXTRA=""
+
+    docker compose build $DCS_BUILD_EXTRA $PROXY_EXTRA
     # list of images
     LOI=$(docker compose config --images | sort -u)
+    set -x
     docker save --platform $DCS_PLATFORM -o $DISTDIR/images.tar $LOI
+    set +x
     echo "Shrinking images.tar. this may take a while..."
     ( cd $DISTDIR && xz --verbose -c images.tar > images.tar.xz )
     cat $YFILE >$DISTDIR/compose.yaml
@@ -865,7 +871,7 @@ if [[ $1 = dcs ]]; then
 #!/bin/bash
 
 
-docker compose up --platform $DCS_PLATFORM --pull never --no-build -d
+docker compose up --pull never --no-build -d
 EOF
     cat >$DISTDIR/dc_down.sh <<EOF
 #!/bin/bash

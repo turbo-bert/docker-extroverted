@@ -1,4 +1,6 @@
 #!/bin/bash
 
 
-docker run --rm -v $PWD:/work -it `cat DTAG`
+source .proxy
+
+docker run                   --rm -v $PWD:/work -it `cat DTAG`
